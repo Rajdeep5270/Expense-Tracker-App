@@ -20,7 +20,7 @@ An intuitive and stylish Expense Tracker App built with **HTML**, **CSS (Bootstr
 
 ## 📸 Screenshot
 
-![Expense Tracker Screenshot](./images/app image.jpg)  
+![Expense Tracker Screenshot](./images/screenshot.jpg)  
 *Make sure to add your actual screenshot in the `images/` folder and name it `screenshot.png`*
 
 ---
