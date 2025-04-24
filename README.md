@@ -49,7 +49,7 @@ If your PC and phone are on the same Wi-Fi:
 ## 🙌 Credits
 
 Built by **Rajdeep Singh Shekhawat**  
-Connect with me on [LinkedIn](#) | [Instagram](#) | [GitHub](#)
+Connect with me on [LinkedIn](#) | [Instagram](#___rajdeep_singh_shekhawat__) | [GitHub](#)
 
 ---
 
