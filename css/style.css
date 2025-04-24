@@ -1,0 +1,61 @@
+:root{
+    --background-color : #F4F7F8;
+    --primary: #2C3E50;
+    --accent : #1ABC9C;
+    --income : #27AE60;
+    --expense : #C0392B;
+    --text : #2C3E50;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+    display: inline-block;
+}
+
+li {
+    list-style: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+.py {
+    padding: 100px 0;
+}
+
+body{
+    background-color: var(--background-color);
+    color: var(--text);
+}
+
+/* heading section  */
+
+.heading h2 , footer p{
+    font-family: "Cedarville Cursive";
+}
+
+/* balance section  */
+
+/* .balance {
+    height: 600px;
+} */
+
+.balance .balance-content h2, .balance .balance-content span {
+    cursor: pointer;
+}
+
+/* modal input type arrow remover  */
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

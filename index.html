@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker App</title>
+    <!-- Cedarville Cursive Fonts css  -->
+    <link rel="stylesheet" href="fonts/Cedarville Cursive/stylesheet.css" type="text/css">
+    <!-- bootstrap css  -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <!-- main css  -->
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+
+<body>
+
+    <header></header>
+
+    <main>
+        <!-- main heading section  -->
+        <section class="heading py-5 bg-dark">
+            <div class="container">
+                <h2 class="display-4 text-center fw-semibold text-light">Expense Tracker App</h2>
+            </div>
+        </section>
+
+        <!-- balance section  -->
+        <section class="balance py-5">
+            <div class="container">
+                <div class="balance-content text-center shadow border py-5">
+                    <h2>Current Balance</h2>
+                    <span class="fs-3 text-success">₹ 0</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="balance-content text-center shadow border py-5 my-5" data-bs-toggle="modal"
+                            data-bs-target="#incomeModal">
+                            <h2 class="text-success">Income</h2>
+                            <span class="fs-3 text-success">+ ₹ 0</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="balance-content text-center shadow border py-5 my-5" data-bs-toggle="modal"
+                            data-bs-target="#expenseModal">
+                            <h2 class="text-danger">Expense</h2>
+                            <span class="fs-3 text-danger">- ₹ 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- income modal section  -->
+        <section class="modal fade" id="incomeModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h2>Income</h2>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" placeholder="Description..." class="form-control my-2 shadow-none"
+                            id="incomeDesc">
+                        <input type="number" placeholder="₹10000..." class="form-control my-2 shadow-none"
+                            id="incomeAmount">
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:void(0)" class="py-2 px-5 bg-success text-white rounded-3"
+                            id="addIncomeBtn" data-bs-dismiss="modal">Add</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- income modal section  -->
+        <section class="modal fade" id="expenseModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h2>Expense</h2>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" placeholder="Description..." class="form-control my-2 shadow-none"
+                            id="expenseDesc">
+                        <input type="number" placeholder="₹10000..." class="form-control my-2 shadow-none"
+                            id="expenseAmount">
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:void(0)" class="py-2 px-5 bg-danger text-white rounded-3"
+                            id="addExpenseBtn" data-bs-dismiss="modal">Deduct</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- income expenses are shown here  -->
+        <section class="show py">
+            <div class="container">
+                <table class="table table-striped-columns text-center">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th class="bg-success">Income</th>
+                            <th class="bg-danger">Expense</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider" id="table">
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-5 bg-dark text-light">
+        <div class="container">
+            <p class="fw-semibold fs-4">Made with &#9829; by Rajdeep Singh Shekhawat</p>
+        </div>
+    </footer>
+
+
+    <!-- bootstrap js cdn  -->
+    <script src="js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script>
+        let balance = 0;
+        let table = document.getElementById("table");
+        let balanceDisplay = document.querySelector(".balance-content span");
+        let incomeDisplay = document.querySelectorAll(".balance-content span")[1];
+        let expenseDisplay = document.querySelectorAll(".balance-content span")[2];
+
+        let incomeBtn = document.getElementById("addIncomeBtn");
+        let expenseBtn = document.getElementById("addExpenseBtn");
+
+        let totalIncome = 0;
+        let totalExpense = 0;
+
+        let entries = JSON.parse(localStorage.getItem("data")) || [];
+
+        function updateDisplay() {
+            balanceDisplay.innerText = `₹ ${balance}`;
+            incomeDisplay.innerText = `+ ₹ ${totalIncome}`;
+            expenseDisplay.innerText = `- ₹ ${totalExpense}`;
+        }
+
+        function addRow(desc, amount, type) {
+            let row = document.createElement("tr");
+            row.innerHTML = `
+    <td>${desc}</td>
+    <td class="${type === 'income' ? 'text-success' : ''}">${type === 'income' ? `₹ ${amount}` : ''}</td>
+    <td class="${type === 'expense' ? 'text-danger' : ''}">${type === 'expense' ? `₹ ${amount}` : ''}</td>
+        `;
+            table.appendChild(row);
+        }
+
+        function saveData() {
+            localStorage.setItem("data", JSON.stringify(entries));
+        }
+
+        function init() {
+            entries.forEach(entry => {
+                addRow(entry.desc, entry.amount, entry.type);
+                if (entry.type === 'income') {
+                    totalIncome += entry.amount;
+                    balance += entry.amount;
+                } else {
+                    totalExpense += entry.amount;
+                    balance -= entry.amount;
+                }
+            });
+            updateDisplay();
+        }
+
+        incomeBtn.addEventListener("click", () => {
+            let desc = document.getElementById("incomeDesc").value;
+            let amt = parseFloat(document.getElementById("incomeAmount").value);
+            if (desc && amt > 0) {
+                entries.push({ desc, amount: amt, type: "income" });
+                addRow(desc, amt, "income");
+                totalIncome += amt;
+                balance += amt;
+                updateDisplay();
+                saveData();
+                document.getElementById("incomeDesc").value = "";
+                document.getElementById("incomeAmount").value = "";
+            }
+        });
+
+        expenseBtn.addEventListener("click", () => {
+            let desc = document.getElementById("expenseDesc").value;
+            let amt = parseFloat(document.getElementById("expenseAmount").value);
+            if (desc && amt > 0) {
+                entries.push({ desc, amount: amt, type: "expense" });
+                addRow(desc, amt, "expense");
+                totalExpense += amt;
+                balance -= amt;
+                updateDisplay();
+                saveData();
+                document.getElementById("expenseDesc").value = "";
+                document.getElementById("expenseAmount").value = "";
+            }
+        });
+
+        init();
+    </script>
+</body>
+
+</html>
